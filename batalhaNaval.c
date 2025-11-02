@@ -150,6 +150,13 @@ if (sobreposicao_d2 == 0) {
     }
 }
 
+//nivel mestre
+printf("\n--- Nível Mestre ---\n");
+printf("Criando e aplicando habilidades especiais...\n\n");
+
+// criar matrizes de habilidades (5x5)
+int skill_cone[tamanho_skill][tamanho_skil] = {0};
+
 
 // exiba o tabuleiro
 
