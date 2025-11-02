@@ -58,19 +58,96 @@ int main() {
             }
         }
     // se não houver sobreposição, posiciona o navio
-    if (sobreposicao == 0) {
-        for (int i = 0; i < tamanho_navio; i++){
+        if (sobreposicao == 0) {
+            for (int i = 0; i < tamanho_navio; i++){
             //representa o navio com o numero 3
-            tabuleiro[navio_v_linha + i][navio_v_coluna] = 3;
+                tabuleiro[navio_v_linha + i][navio_v_coluna] = 3;
 
-        }
-        printf("Navio vertical posicionado com sucesso. \n\n");
+            }
+            printf("Navio vertical posicionado com sucesso. \n\n");
 
-    } else {
+        } else {
         printf("Erro: O navio vertical se sobrepõe a outro navio! \n\n");
-   
+        }
     } else {
-    printf("Erro o navio vertical sai dos limites do tabuleiro!\n\n");
+        printf("Erro o navio vertical sai dos limites do tabuleiro!\n\n");
+}
+
+// começa o nivel aventureiro
+
+printf("\n--- Nível Aventureiro ---\n");
+
+// navio na diagonal
+
+int navio_d1_linha = 5;
+int navio_d1_coluna = 1;
+printf("Posicionando navio diagonal 1 (baixo-direita)...\n");
+
+// validar limites (Diagonal);
+// Precisa checar se a LINHA + TAMANHO e a COLUNA + TAMANHO estão no tabuleiro
+int d1_cabe = 1; // 1 = sim, 0 = não
+if (navio_d1_linha + tamanho_navio > tamanho_tabuleiro || navio_d1_coluna + tamanho_navio > tamanho_tabuleiro){
+    d1_cabe = 0;
+    printf("Erro: Navio diagonal 1 sai dos limites!\n\n");  
+}
+
+// Se couber, prossiga para a sobreposição
+if (d1_cabe == 1) {
+    // validar sobreposição
+    int sobreposicao_d1 = 0;
+    for (int i = 0; i < tamanho_navio; i++) {
+        // lógica da diagonal: checa [linha+i][coluna+i]
+        if (tabuleiro[navio_d1_linha + i][navio_d1_coluna + i] != 0) {
+            sobreposicao_d1 = 1;
+            break;
+        }
+    }
+
+    // Posicionar (Diagonal):
+    if (sobreposicao_d1 == 0) {
+        for (int i = 0; i < tamanho_navio; i++) {
+        tabuleiro[navio_d1_linha + i][navio_d1_coluna + i] = 3;
+    }
+    printf("Navio diagonal 1 posicionado com sucesso.\n\n");
+} else {
+    printf("Erro: Navio diagonal 1 se sobrepõe a outro!\n\n");
+    }
+}
+
+// adicional o navio diagonal 2 (Baixo-Esquerda)
+int navio_d2_linha = 6;
+int navio_d2_coluna = 8;
+printf("Posicionando navio diagonal 2 (baixo-esquerda)...\n");
+
+// Validar limites (Diagonal Oposta):
+// checa LINHA + TAMANHO (para baixo) e COLUNA - TAMANHO (para esquerda)
+int d2_cabe = 1;
+if (navio_d2_linha + tamanho_navio > tamanho_tabuleiro || navio_d2_coluna - (tamanho_navio - 1) < 0) {
+    d2_cabe = 0;
+    printf("Erro: Navio diagonal 2 sai dos limites!\n\n");
+}
+
+// Se couber, prossiga para a sobreposição
+if(d2_cabe == 1) {
+    // validar sobreposição (Diagonal Oposta):
+    int sobreposicao_d2 = 0;
+    for (int i = 0; i < tamanho_navio; i++) {
+        // lógica da diagonal oposta: checa [Linha+i][coluna-i]
+        if (tabuleiro[navio_d2_linha + i][navio_d2_coluna - i] != 0) {
+            sobreposicao_d2 = 1;
+            break;
+        }
+    }
+
+// posicionar (Diagonal Oposta):
+if (sobreposicao_d2 == 0) {
+    for (int i = 0; i < tamanho_navio; i++) {
+        tabuleiro[navio_d2_linha + i][navio_d2_coluna - i] =3;
+    }
+    printf("Navio diagonal 2 posicionado com sucesso.\n\n");
+} else {
+    printf("Erro: Navio diagonal 2 se sobrepõe a outro!\n\n");
+    }
 }
 
 
@@ -85,34 +162,4 @@ for (int i = 0; i < tamanho_tabuleiro; i++) {
 }
 
 return 0;
-
-   
-
-    // Nível Aventureiro - Expansão do Tabuleiro e Posicionamento Diagonal
-    // Sugestão: Expanda o tabuleiro para uma matriz 10x10.
-    // Sugestão: Posicione quatro navios no tabuleiro, incluindo dois na diagonal.
-    // Sugestão: Exiba o tabuleiro completo no console, mostrando 0 para posições vazias e 3 para posições ocupadas.
-
-    // Nível Mestre - Habilidades Especiais com Matrizes
-    // Sugestão: Crie matrizes para representar habilidades especiais como cone, cruz, e octaedro.
-    // Sugestão: Utilize estruturas de repetição aninhadas para preencher as áreas afetadas por essas habilidades no tabuleiro.
-    // Sugestão: Exiba o tabuleiro com as áreas afetadas, utilizando 0 para áreas não afetadas e 1 para áreas atingidas.
-
-    // Exemplos de exibição das habilidades:
-    // Exemplo para habilidade em cone:
-    // 0 0 1 0 0
-    // 0 1 1 1 0
-    // 1 1 1 1 1
-    
-    // Exemplo para habilidade em octaedro:
-    // 0 0 1 0 0
-    // 0 1 1 1 0
-    // 0 0 1 0 0
-
-    // Exemplo para habilidade em cruz:
-    // 0 0 1 0 0
-    // 1 1 1 1 1
-    // 0 0 1 0 0
-
-    return 0;
 }
