@@ -5,6 +5,7 @@
 // Siga os comentários para implementar cada parte do desafio.
 #define tamanho_tabuleiro 10
 #define tamanho_navio 3
+#define tamanho_skill 5 // adição mestre: define o tamanho da matriz de habilidade
 
 int main() {
     // Nível Novato - Posicionamento dos Navios
@@ -156,7 +157,28 @@ printf("Criando e aplicando habilidades especiais...\n\n");
 
 // criar matrizes de habilidades (5x5)
 int skill_cone[tamanho_skill][tamanho_skil] = {0};
+int skill_cruz[tamanho_skill][tamanho_skill] = {0};
+int skill_octaedro[tamanho_skill][tamanho_skill] = {0};
 
+// centro da matriz 5x5 é o indice 2
+int centro_skill = tamanho_skill / 2; // 5 / 2 = 2
+
+/*
+ criando habilidade cone (centrada, apontando para baixo)
+i = 0 -> linha central (ponto do cone)
+i = 1 -> linha abaixo, expande 1 para cada lado
+i = 2 -> linha abaixo, expande 2 para cada lado
+*/
+for (int i = 0; i < 3; i++) {// i é o offset da linha a partir do centro
+    for (int j = centro_skill - i; j <= centro_skill = i; j++) {
+        // valida os limites da matriz de skill (5x5)
+        if (centro_skill + i < tamanho_skill && j >= 0 && j < tamanho_skill) {
+            skill_cone[centro_skill + i][j] = 1;
+            
+        }
+    }
+
+}
 
 // exiba o tabuleiro
 
