@@ -156,7 +156,7 @@ printf("\n--- Nível Mestre ---\n");
 printf("Criando e aplicando habilidades especiais...\n\n");
 
 // criar matrizes de habilidades (5x5)
-int skill_cone[tamanho_skill][tamanho_skil] = {0};
+int skill_cone[tamanho_skill][tamanho_skill] = {0};
 int skill_cruz[tamanho_skill][tamanho_skill] = {0};
 int skill_octaedro[tamanho_skill][tamanho_skill] = {0};
 
@@ -170,7 +170,7 @@ i = 1 -> linha abaixo, expande 1 para cada lado
 i = 2 -> linha abaixo, expande 2 para cada lado
 */
 for (int i = 0; i < 3; i++) {// i é o offset da linha a partir do centro
-    for (int j = centro_skill - i; j <= centro_skill = i; j++) {
+    for (int j = centro_skill - i; j <= centro_skill + i; j++) {
         // valida os limites da matriz de skill (5x5)
         if (centro_skill + i < tamanho_skill && j >= 0 && j < tamanho_skill) {
             skill_cone[centro_skill + i][j] = 1;
@@ -180,6 +180,108 @@ for (int i = 0; i < 3; i++) {// i é o offset da linha a partir do centro
 
 }
 
+// cria a habilidade Cruz (centrada)
+for (int i = 0; i < tamanho_skill; i++) {
+    skill_cruz[centro_skill][i] = 1; //linha horizontal
+    skill_cruz[i][centro_skill] = 1; // linha vertical
+
+}
+
+// cria a habilidade Octaedro (Losango)
+// usa a distancia de manhattan 
+int raio_octaedro = 2; // Raio 2 em uma matriz 5x5
+for (int i = 0; i < tamanho_skill; i++) {
+    for (int j = 0; j < tamanho_skill; j++) {
+        // calcula o valor absoluto da distância de i,j até o centro,centro
+        int dist_i = (i > centro_skill) ? (i - centro_skill) : (centro_skill - i);
+        int dist_j = (j > centro_skill) ? (j - centro_skill) : (centro_skill - j);
+
+        if (dist_i + dist_j <= raio_octaedro) {
+            skill_octaedro[i][j] = 1;
+        }
+    }
+}
+
+// defini pontos de origem do tabuleiro 10x10
+// onde o centro [2][2] da matriz de skill vai acertar
+int cone_origem_linha = 2;
+int cone_origem_coluna = 7;
+
+int cruz_origem_linha = 7;
+int cruz_origem_coluna = 2;
+
+int octaedro_origem_linha = 7;
+int octaedro_origem_coluna = 7;
+
+// aplicar sobrepor as habilidades no tabuleiro
+// valor 5 representa a área de efeito
+
+// aplicando o cone
+for (int i = 0; i < tamanho_skill; i++) {
+    for (int j = 0; j < tamanho_skill; j++) {
+    // se o ponto i,j na matriz de skill for 1 (afetado)
+        if (skill_cone[i][j] == 1) {
+            // calculamos a coordenada correspondente no tabuleiro
+            // (i - centro_skill)
+            int target_linha = cone_origem_linha + (i - centro_skill);
+            int target_coluna = cone_origem_coluna + (j - centro_skill);
+
+            // validamos se essa coordenada está dentro do tabuleiro 10x10
+            if (target_linha >= 0 && target_linha < tamanho_tabuleiro &&
+                target_coluna >= 0 && target_coluna < tamanho_tabuleiro) {
+
+                        //marcamos o tabuleiro com 5
+                    tabuleiro[target_linha][target_coluna] = 5;
+                }
+            }
+        }
+    }
+
+for (int i = 0; i < tamanho_skill; i++) {
+    for (int j = 0; j < tamanho_skill; j++) {
+    // se o ponto i,j na matriz de skill for 1 (afetado)
+        if (skill_cruz[i][j] == 1) {
+            // calculamos a coordenada correspondente no tabuleiro
+            // (i - centro_skill)
+            int target_linha = cruz_origem_linha + (i - centro_skill);
+            int target_coluna = cruz_origem_coluna + (j - centro_skill);
+
+            // validamos se essa coordenada está dentro do tabuleiro 10x10
+            if (target_linha >= 0 && target_linha < tamanho_tabuleiro &&
+                target_coluna >= 0 && target_coluna < tamanho_tabuleiro) {
+
+                    //marcamos o tabuleiro com 5
+                    tabuleiro[target_linha][target_coluna] = 5;
+                }
+            }
+        }
+    }
+
+
+            
+// aplicando octaedro mesma lógica overlay
+for (int i = 0; i < tamanho_skill; i++) {
+    for (int j = 0; j < tamanho_skill; j++) {
+    // se o ponto i,j na matriz de skill for 1 (afetado)
+        if (skill_octaedro[i][j] == 1) {
+            // calculamos a coordenada correspondente no tabuleiro
+            // (i - centro_skill)
+            int target_linha = octaedro_origem_linha + (i - centro_skill);
+            int target_coluna = octaedro_origem_coluna + (j - centro_skill);
+
+            // validamos se essa coordenada está dentro do tabuleiro 10x10
+            if (target_linha >= 0 && target_linha < tamanho_tabuleiro &&
+                target_coluna >= 0 && target_coluna < tamanho_tabuleiro) {
+
+                    //marcamos o tabuleiro com 5
+                    tabuleiro[target_linha][target_coluna] = 5;
+               }
+            }
+        }
+    }
+
+    printf("Habilidades aplicadas!\n\n");
+            
 // exiba o tabuleiro
 
 printf("--- TABULEIRO FINAL DE BATALHA NAVAL ---\n\n");
